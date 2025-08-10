@@ -7,6 +7,11 @@ from nltk.corpus import wordnet
 from textblob import TextBlob
 import numpy as np
 from scipy.sparse import hstack
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
 
 # Load the saved TF-IDF vectorizer
 vectorizer = joblib.load("vectorizer.pkl")
