@@ -1,11 +1,22 @@
 import joblib
 import nltk
 
-nltk.download('punkt')
-nltk.download('punkt_tab') 
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('averaged_perceptron_tagger')
+# Ensure all necessary resources are available
+def ensure_nltk_resources():
+    resources = [
+        'punkt',
+        'punkt_tab',  # for NLTK 3.9+
+        'stopwords',
+        'wordnet',
+        'averaged_perceptron_tagger'
+    ]
+    for resource in resources:
+        try:
+            nltk.data.find(f'tokenizers/{resource}') if 'punkt' in resource else nltk.data.find(f'corpora/{resource}')
+        except LookupError:
+            nltk.download(resource, quiet=True)
+
+ensure_nltk_resources()
 
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -15,7 +26,6 @@ from nltk.corpus import wordnet
 from textblob import TextBlob
 import numpy as np
 from scipy.sparse import hstack
-
 
 # Load the saved TF-IDF vectorizer
 vectorizer = joblib.load("vectorizer.pkl")
