@@ -4,17 +4,24 @@ import nltk
 # Ensure all necessary resources are available
 def ensure_nltk_resources():
     resources = [
-        'punkt',
-        'punkt_tab',  # for NLTK 3.9+
-        'stopwords',
-        'wordnet',
-        'averaged_perceptron_tagger'
+        # Tokenizers
+        ('tokenizers/punkt', 'punkt'),
+        ('tokenizers/punkt_tab/english', 'punkt_tab'),
+        
+        # Stopwords & WordNet
+        ('corpora/stopwords', 'stopwords'),
+        ('corpora/wordnet', 'wordnet'),
+        
+        # POS tagger (old + new naming)
+        ('taggers/averaged_perceptron_tagger', 'averaged_perceptron_tagger'),
+        ('taggers/averaged_perceptron_tagger_eng', 'averaged_perceptron_tagger_eng')
     ]
-    for resource in resources:
+    
+    for path, name in resources:
         try:
-            nltk.data.find(f'tokenizers/{resource}') if 'punkt' in resource else nltk.data.find(f'corpora/{resource}')
+            nltk.data.find(path)
         except LookupError:
-            nltk.download(resource, quiet=True)
+            nltk.download(name, quiet=True)
 
 ensure_nltk_resources()
 
